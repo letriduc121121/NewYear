@@ -1,0 +1,62 @@
+/* Soft Card Styles */
+.soft-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    box-shadow: 0 8px 30px rgba(164, 36, 59, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.soft-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(164, 36, 59, 0.18);
+}
+
+/* Gentle Glow Effect */
+.gentle-glow {
+    box-shadow:
+        0 0 20px rgba(244, 164, 96, 0.3),
+        0 0 40px rgba(244, 164, 96, 0.2),
+        0 0 60px rgba(244, 164, 96, 0.1);
+}
+
+/* Soft Pulse Animation */
+@keyframes softPulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+.soft-pulse {
+    animation: softPulse 3s ease-in-out infinite;
+}
+
+/* Floating Animation */
+@keyframes gentleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-10px) rotate(2deg);
+    }
+
+    75% {
+        transform: translateY(-5px) rotate(-2deg);
+    }
+}
+
+.gentle-float {
+    animation: gentleFloat 6s ease-in-out infinite;
+}
