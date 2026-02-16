@@ -64,6 +64,10 @@
         animation: flowerFall 8s linear infinite;
     }
 
+    .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
     @keyframes flowerFall {
         0% {
             transform: translateY(-10vh) rotate(0deg);

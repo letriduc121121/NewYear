@@ -14,21 +14,21 @@ const Navigation = () => {
         <>
             {/* Desktop & Tablet: Top Centered Navigation */}
             <nav className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50">
-                <div className="bg-cream-white/90 backdrop-blur-lg rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.08)] px-4 py-2 border border-charcoal/10">
+                <div className="bg-white/80 backdrop-blur-xl rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.1)] px-3 py-2 border border-white/20">
                     <div className="flex items-center gap-1">
                         {navItems.map((item) => (
                             <NavLink
                                 key={item.path}
                                 to={item.path}
                                 className={({ isActive }) =>
-                                    `flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all duration-300 ${isActive
-                                        ? 'bg-white text-spring-red shadow-md scale-105'
-                                        : 'text-charcoal/70 hover:bg-white/50 hover:text-charcoal'
+                                    `flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isActive
+                                        ? 'bg-spring-red text-white shadow-[0_4px_12px_rgba(230,57,70,0.3)] scale-105'
+                                        : 'text-charcoal/70 hover:bg-black/5 hover:text-charcoal'
                                     }`
                                 }
                             >
-                                <span className="text-base">{item.icon}</span>
-                                <span className="text-xs font-medium whitespace-nowrap font-vietnamese">
+                                <span className="text-lg">{item.icon}</span>
+                                <span className="text-sm font-semibold whitespace-nowrap font-vietnamese">
                                     {item.label}
                                 </span>
                             </NavLink>
@@ -37,24 +37,37 @@ const Navigation = () => {
                 </div>
             </nav>
 
-            {/* Mobile: Bottom Navigation */}
-            <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-cream-white/90 backdrop-blur-lg shadow-[0_-4px_24px_rgba(0,0,0,0.1)] z-50 border-t border-charcoal/10">
-                <div className="flex justify-around items-center px-2 py-3">
-                    {navItems.map((item) => (
-                        <NavLink
-                            key={item.path}
-                            to={item.path}
-                            className={({ isActive }) =>
-                                `flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all duration-200 min-w-[60px] ${isActive
-                                    ? 'text-spring-red scale-110'
-                                    : 'text-charcoal/60'
-                                }`
-                            }
-                        >
-                            <span className="text-xl">{item.icon}</span>
-                            <span className="text-xs font-medium font-vietnamese">{item.label}</span>
-                        </NavLink>
-                    ))}
+            {/* Mobile: Bottom Navigation - Floating Doc Style */}
+            <nav className="md:hidden fixed bottom-6 left-4 right-4 z-50">
+                <div className="bg-white/90 backdrop-blur-2xl rounded-[2rem] shadow-[0_12px_40px_rgba(0,0,0,0.15)] border border-white/40 pb-safe">
+                    <div className="flex justify-around items-center px-4 py-3">
+                        {navItems.map((item) => (
+                            <NavLink
+                                key={item.path}
+                                to={item.path}
+                                className={({ isActive }) =>
+                                    `flex flex-col items-center gap-1 px-4 py-2 rounded-2xl transition-all duration-300 relative ${isActive
+                                        ? 'text-spring-red'
+                                        : 'text-charcoal/40 hover:text-charcoal/60'
+                                    }`
+                                }
+                            >
+                                {({ isActive }) => (
+                                    <>
+                                        {isActive && (
+                                            <div className="absolute -top-1 w-1 h-1 bg-spring-red rounded-full animate-pulse" />
+                                        )}
+                                        <span className={`text-2xl transition-transform duration-300 ${isActive ? 'scale-110 -translate-y-0.5' : ''}`}>
+                                            {item.icon}
+                                        </span>
+                                        <span className={`text-[10px] uppercase font-bold tracking-wider font-vietnamese transition-all duration-300 ${isActive ? 'opacity-100' : 'opacity-60'}`}>
+                                            {item.label}
+                                        </span>
+                                    </>
+                                )}
+                            </NavLink>
+                        ))}
+                    </div>
                 </div>
             </nav>
         </>

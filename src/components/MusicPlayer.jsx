@@ -41,27 +41,49 @@ const MusicPlayer = () => {
 	};
 
 	useEffect(() => {
-		// Attempt to autoplay on first user interaction
-		const playAudio = () => {
-			if (audioRef.current && !isPlaying) {
-				audioRef.current.play().then(() => {
+		const audio = audioRef.current;
+		if (!audio) return;
+
+		// Try to play immediately on mount
+		const attemptPlay = () => {
+			audio.play()
+				.then(() => {
 					setIsPlaying(true);
 					fadeIn();
-				}).catch(() => {
-					console.log("Autoplay blocked");
+				})
+				.catch((error) => {
+					console.log("Initial autoplay blocked:", error);
 				});
+		};
+
+		attemptPlay();
+
+		// Robust fallback for interaction
+		const playOnInteraction = () => {
+			if (audioRef.current && !isPlaying) {
+				audioRef.current.play()
+					.then(() => {
+						setIsPlaying(true);
+						fadeIn();
+						removeListeners();
+					})
+					.catch(console.error);
 			}
 		};
 
-		const interactions = ['click', 'touchstart', 'scroll'];
+		const interactions = ['click', 'touchstart', 'scroll', 'mousedown'];
+		const removeListeners = () => {
+			interactions.forEach(type => {
+				window.removeEventListener(type, playOnInteraction);
+			});
+		};
+
 		interactions.forEach(type => {
-			window.addEventListener(type, playAudio, { once: true });
+			window.addEventListener(type, playOnInteraction, { once: true });
 		});
 
 		return () => {
-			interactions.forEach(type => {
-				window.removeEventListener(type, playAudio);
-			});
+			removeListeners();
 			clearInterval(fadeIntervalRef.current);
 		};
 	}, [isPlaying]);
@@ -72,6 +94,8 @@ const MusicPlayer = () => {
 				ref={audioRef}
 				src={bgMusic}
 				loop
+				autoPlay
+				playsInline
 				onPlay={() => setIsPlaying(true)}
 				onPause={() => setIsPlaying(false)}
 			/>
